@@ -1,5 +1,39 @@
-// Оголоси наступні операції:
+import axios from "axios";
 
-// fetchContacts - одержання масиву контактів (метод GET) запитом. Базовий тип екшену це рядок "contacts/fetchAll".
-// addContact - додавання нового контакту (метод POST). Базовий тип екшену це рядок "contacts/addContact".
-// deleteContact - видалення контакту по ID (метод DELETE). Базовий тип екшену це рядок "contacts/deleteContact".
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+axios.defaults.baseURL = "https://64d87f405f9bf5b879ce4838.mockapi.io";
+
+export const fetchContacts = createAsyncThunk(
+  "contacts/fetchContacts",
+  async ({ signal }, thunkAPI) => {
+    try {
+      const { data } = await axios.get("/contacts", { signal });
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+export const deleteContact = createAsyncThunk(
+  "contacts/deleteContact",
+  async (id, thunkAPI) => {
+    try {
+      await axios.delete(`/contacts/${id}`);
+      return id;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+export const addContact = createAsyncThunk(
+  "contacts/addContact",
+  async (body, thunkAPI) => {
+    try {
+      const { data } = await axios.post("/contacts", body);
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
