@@ -1,27 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Contact from "../Contact/Contact";
 import s from "./ContactList.module.css";
-import { useEffect } from "react";
-import { fetchContacts } from "../../redux/contactsOps";
-import { selectNameFilter } from "../../redux/filtersSlice";
-import { selectContacts } from "../../redux/contactsSlice";
+import { selectFilteredData } from "../../redux/contactsSlice";
 
 function ContactList() {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectNameFilter);
-
-  const filteredData = contacts.filter((item) =>
-    item.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    dispatch(fetchContacts({ signal: abortController.signal }));
-    return () => {
-      abortController.abort();
-    };
-  }, [dispatch]);
+  const filteredData = useSelector(selectFilteredData);
 
   return (
     <div className={s.container}>
