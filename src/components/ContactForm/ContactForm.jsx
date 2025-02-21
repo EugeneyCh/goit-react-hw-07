@@ -8,8 +8,7 @@ import { addContact } from "../../redux/contactsOps";
 
 const onlyLetters = /^[A-Za-zА-Яа-яЄєІіЇїҐґ-\s]+$/;
 
-var onlyNumbers = /^\d+$/;
-
+const onlyNumbersWithDashBetween = /^\d+(-\d+)*$/;
 const applySchema = Yup.object().shape({
   username: Yup.string()
     .required("Це поле обов'язкове!")
@@ -20,7 +19,7 @@ const applySchema = Yup.object().shape({
     .required("Це поле обов'язкове!")
     .min(3, "Мінімум 3 символи!")
     .max(50, "Максимум 20 символів!")
-    .matches(onlyNumbers, "Тільки цифри!"),
+    .matches(onlyNumbersWithDashBetween, "Тільки цифри!"),
 });
 
 const ContactForm = () => {
@@ -37,7 +36,7 @@ const ContactForm = () => {
     const newContact = {
       id: nanoid(),
       name: values.username,
-      number: values.phoneNumber,
+      phone: values.phoneNumber,
     };
 
     dispatch(addContact(newContact));
