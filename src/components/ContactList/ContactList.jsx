@@ -8,14 +8,17 @@ function ContactList() {
 
   return (
     <div className={s.container}>
-      {filteredContacts.map((item) => (
-        <Contact
-          key={item.id}
-          id={item.id}
-          name={item.name}
-          phone={item.phone}
-        />
-      ))}
+      {filteredContacts
+        .slice()
+        .reverse()
+        .map((item) => (
+          <Contact
+            key={item.id}
+            id={item.id}
+            name={item.name}
+            phone={item.phone}
+          />
+        ))}
     </div>
   );
 }
