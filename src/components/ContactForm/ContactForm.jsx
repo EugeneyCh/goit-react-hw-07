@@ -19,7 +19,10 @@ const applySchema = Yup.object().shape({
     .required("Це поле обов'язкове!")
     .min(3, "Мінімум 3 символи!")
     .max(50, "Максимум 20 символів!")
-    .matches(onlyNumbersWithDashBetween, "Тільки цифри!"),
+    .matches(
+      onlyNumbersWithDashBetween,
+      "Тільки цифри у форматі ХХХ-ХХХ-ХХХ !"
+    ),
 });
 
 const ContactForm = () => {
